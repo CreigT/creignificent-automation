@@ -17,10 +17,11 @@
     <label>Service Type:</label><br>
     <input type="text"><br><br>
 
-    <button type="button"onclick="generateProposal()'>Generate Proposal</button>
+    <button type="button" onclick="generateProposal()">Generate Proposal</button>
   </form>
 <p id="output"></p>
 
+<script>
 <script>
 function generateProposal() {
   const name = document.querySelectorAll("input")[0].value;
@@ -28,18 +29,19 @@ function generateProposal() {
   const service = document.querySelectorAll("input")[2].value;
 
   const result = `
-  Proposal for ${name}
-  
-  Service Type: ${service}
-  Square Footage: ${sqft}
+Proposal for ${name}
 
-  Estimated Price: $${sqft * 0.10}
+Service Type: ${service}
+Square Footage: ${sqft}
 
-  Thank you for choosing Creignificent Cleaning.
-  `;
+Estimated Price: $${sqft * 0.10}
+
+Thank you for choosing Creignificent Cleaning.
+`;
 
   document.getElementById("output").innerText = result;
 }
+</script>
 </script>
 </body>
 </html>
