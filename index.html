@@ -17,8 +17,29 @@
     <label>Service Type:</label><br>
     <input type="text"><br><br>
 
-    <button type="submit">Generate Proposal</button>
+    <button type="button"onclick="generateProposal()'>Generate Proposal</button>
   </form>
+<p id="output"></p>
 
+<script>
+function generateProposal() {
+  const name = document.querySelectorAll("input")[0].value;
+  const sqft = document.querySelectorAll("input")[1].value;
+  const service = document.querySelectorAll("input")[2].value;
+
+  const result = `
+  Proposal for ${name}
+  
+  Service Type: ${service}
+  Square Footage: ${sqft}
+
+  Estimated Price: $${sqft * 0.10}
+
+  Thank you for choosing Creignificent Cleaning.
+  `;
+
+  document.getElementById("output").innerText = result;
+}
+</script>
 </body>
 </html>
