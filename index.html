@@ -9,39 +9,45 @@
 
   <form>
     <label>Business Name:</label><br>
-    <input type="text"><br><br>
+    <input type="text" id="businessName"><br><br>
 
     <label>Square Footage:</label><br>
-    <input type="text"><br><br>
+    <input type="number" id="squareFootage"><br><br>
 
     <label>Service Type:</label><br>
-    <input type="text"><br><br>
+    <input type="text" id="serviceType"><br><br>
 
     <button type="button" onclick="generateProposal()">Generate Proposal</button>
   </form>
 <p id="output"></p>
 
 <script>
-<script>
 function generateProposal() {
-  const name = document.querySelectorAll("input")[0].value;
-  const sqft = document.querySelectorAll("input")[1].value;
-  const service = document.querySelectorAll("input")[2].value;
+  const name = document.getElementById("businessName").value;
+  const sqft = parseFloat(document.getElementById("squareFootage").value);
+  const service = document.getElementById("serviceType").value;
+
+  // Basic validation for square footage
+  if (isNaN(sqft) || sqft <= 0) {
+    document.getElementById("output").innerText = "Please enter a valid square footage.";
+    return;
+  }
+
+  const estimatedPrice = (sqft * 0.10).toFixed(2);
 
   const result = `
 Proposal for ${name}
 
 Service Type: ${service}
-Square Footage: ${sqft}
+Square Footage: ${sqft} sq ft
 
-Estimated Price: $${sqft * 0.10}
+Estimated Price: $${estimatedPrice}
 
 Thank you for choosing Creignificent Cleaning.
 `;
 
   document.getElementById("output").innerText = result;
 }
-</script>
 </script>
 </body>
 </html>
