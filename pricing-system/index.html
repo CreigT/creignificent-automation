@@ -1,0 +1,1168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="description" content="Creignificent Cleaning pricing calculator and 3-option proposal generator." />
+  <meta name="theme-color" content="#0f3d34" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Creignificent Pricing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  --ink: #14221e;
+  --muted: #5b6b66;
+  --line: #d7e0db;
+  --paper: #f4f1ea;
+  --card: #fffcf6;
+  --forest: #0f3d34;
+  --forest-2: #18574a;
+  --moss: #2f6f5e;
+  --gold: #c4a15a;
+  --gold-soft: #f3e6c4;
+  --warn-bg: #f8efe0;
+  --warn-ink: #6a4a12;
+  --shadow: 0 18px 40px rgba(20, 34, 30, 0.08);
+  --radius: 22px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+
+.bg-wash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 420px at 8% -10%, rgba(47, 111, 94, 0.16), transparent 60%),
+    radial-gradient(700px 360px at 100% 0%, rgba(196, 161, 90, 0.18), transparent 55%);
+  z-index: 0;
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 20px 64px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--moss);
+}
+
+h1 {
+  margin: 0;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(32px, 5vw, 48px);
+  letter-spacing: -0.03em;
+  color: var(--forest);
+}
+
+.sub {
+  margin: 8px 0 0;
+  color: var(--muted);
+  max-width: 46ch;
+  line-height: 1.45;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.92fr);
+  gap: 18px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(15, 61, 52, 0.08);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 16px;
+}
+
+.section-title span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--forest);
+  color: #f7f3ea;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.section-title h2 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--forest-2);
+}
+
+input, select, textarea, button {
+  font: inherit;
+}
+
+input, select, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 12px;
+  padding: 11px 12px;
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--moss);
+  box-shadow: 0 0 0 3px rgba(47, 111, 94, 0.16);
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.hint {
+  margin: -4px 0 14px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.toggle-row {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.toggle-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--forest);
+}
+
+details {
+  margin-top: 8px;
+  border-top: 1px dashed var(--line);
+  padding-top: 12px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 10px;
+}
+
+.rules { margin-top: 8px; }
+.company-fields { display: grid; gap: 12px; margin-top: 8px; }
+
+.hidden { display: none !important; }
+
+.warning {
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.price-main {
+  background: linear-gradient(180deg, #123f36, #0c2d27);
+  color: #f6f1e6;
+  border-radius: 18px;
+  padding: 18px 18px 16px;
+  margin-bottom: 14px;
+}
+
+.price-main p {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.price-main strong {
+  display: block;
+  margin-top: 4px;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(36px, 6vw, 52px);
+  letter-spacing: -0.03em;
+}
+
+.price-main small {
+  display: block;
+  margin-top: 4px;
+  color: #d9c48a;
+}
+
+.breakdown {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.breakdown li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee7da;
+}
+
+.packages {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.packages article {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  background: #fff;
+}
+
+.packages article.featured {
+  border-color: #e2c980;
+  background: linear-gradient(180deg, #fffaf0, #fff);
+  box-shadow: 0 8px 20px rgba(196, 161, 90, 0.16);
+}
+
+.packages p {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.packages strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 24px;
+  color: var(--forest);
+}
+
+.packages small { color: var(--muted); }
+
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--gold);
+  color: #2b220e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 7px;
+  border-radius: 999px;
+}
+
+textarea#proposal {
+  min-height: 240px;
+  resize: vertical;
+  line-height: 1.45;
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+button {
+  border: 0;
+  background: var(--forest);
+  color: #f7f3ea;
+  border-radius: 999px;
+  padding: 11px 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--forest);
+  border: 1px solid var(--line);
+}
+
+button:active { transform: translateY(1px); }
+
+.brand {
+  margin: 16px 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.drawer {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 28, 25, 0.42);
+  z-index: 20;
+  display: grid;
+  place-items: end;
+}
+
+.drawer[hidden] {
+  display: none !important;
+}
+
+.drawer-panel {
+  width: min(520px, 100%);
+  height: min(86vh, 760px);
+  background: var(--card);
+  border-radius: 24px 24px 0 0;
+  padding: 18px;
+  overflow: auto;
+}
+
+.drawer-panel header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.drawer-panel h2 {
+  margin: 0;
+  font-family: Fraunces, Georgia, serif;
+  color: var(--forest);
+}
+
+.history-list { display: grid; gap: 8px; }
+
+.history-item, .empty {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  background: #fff;
+}
+
+.history-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.history-item strong { color: var(--forest); }
+.history-item span { color: var(--muted); font-size: 12px; }
+.history-item button { padding: 7px 10px; font-size: 12px; }
+
+@media (max-width: 880px) {
+  .grid { grid-template-columns: 1fr; }
+  .hero { flex-direction: column; align-items: flex-start; }
+}
+
+.print-sheet {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 0.6in;
+  }
+
+  html, body {
+    background: #fff !important;
+    color: #111;
+  }
+
+  .bg-wash,
+  .shell,
+  .drawer,
+  button {
+    display: none !important;
+  }
+
+  .print-sheet,
+  .print-sheet[hidden] {
+    display: block !important;
+    position: static !important;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+    background: #fff;
+    color: #111;
+    font-size: 12.5pt;
+    line-height: 1.45;
+  }
+
+  .print-sheet h1 {
+    font-size: 20pt;
+    margin: 0 0 4px;
+    color: #0f3d34;
+  }
+
+  .print-sheet .print-meta {
+    color: #444;
+    margin: 0 0 16px;
+    font-size: 11pt;
+  }
+
+  .print-sheet h2 {
+    font-size: 12pt;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #0f3d34;
+    margin: 16px 0 6px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+  }
+
+  .print-sheet p {
+    margin: 0 0 8px;
+  }
+
+  .print-sheet .price {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #0f3d34;
+    margin: 0 0 6px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="bg-wash" aria-hidden="true"></div>
+  <main class="shell">
+    <header class="hero">
+      <div class="brand-block">
+        <p class="eyebrow">Creignificent Cleaning</p>
+        <h1>Pricing System</h1>
+        <p class="sub">Walk the site → lock a protected price → send a Good / Better / Best proposal.</p>
+      </div>
+      <div class="hero-actions">
+        <button type="button" id="historyBtn" class="ghost">Quotes</button>
+        <button type="button" id="resetBtn" class="ghost">Reset job</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <form id="pricingForm" class="card controls" autocomplete="off">
+        <div class="section-title"><span>1</span><h2>Job</h2></div>
+
+        <label>Client / site name
+          <input id="client" placeholder="ABC Daycare — Main Street" />
+        </label>
+
+        <label>Job type
+          <select id="jobType">
+            <option value="recurring">Recurring janitorial</option>
+            <option value="oneTime">One-time general clean</option>
+            <option value="floor">Floor-only / specialty</option>
+          </select>
+        </label>
+
+        <div class="two">
+          <label>Square feet
+            <input id="sqft" type="number" min="0" step="1" value="5000" />
+          </label>
+          <label>Bathrooms
+            <input id="baths" type="number" min="0" step="1" value="2" />
+          </label>
+        </div>
+
+        <div id="recurringFields">
+          <div class="two">
+            <label>Days / week
+              <input id="days" type="number" min="1" max="7" step="1" value="3" />
+            </label>
+            <label>Base $ / sq ft / mo
+              <input id="sqftRate" type="number" min="0" step="0.01" value="0.33" />
+            </label>
+          </div>
+          <p class="hint">Rate is monthly at 3×/week. More or fewer days scale the monthly price.</p>
+        </div>
+
+        <div id="oneTimeFields" class="hidden">
+          <label>One-time $ / sq ft
+            <input id="oneTimeRate" type="number" min="0" step="0.01" value="0.18" />
+          </label>
+          <p class="hint">One-time general cleans are priced per square foot for a single visit, then floored by the visit minimum.</p>
+        </div>
+
+        <div id="specialtyFields" class="hidden">
+          <div class="two">
+            <label>Labor hours
+              <input id="laborHours" type="number" min="0" step="0.25" value="3" />
+            </label>
+            <label>Labor rate $/hr
+              <input id="laborRate" type="number" min="0" step="1" value="60" />
+            </label>
+          </div>
+          <label>Materials / machine cost
+            <input id="materials" type="number" min="0" step="1" value="50" />
+          </label>
+        </div>
+
+        <div class="section-title"><span>2</span><h2>Adjustments</h2></div>
+
+        <label class="toggle-row">
+          <span>Creignificent supplies chemicals</span>
+          <input id="chemicals" type="checkbox" />
+        </label>
+        <label class="toggle-row">
+          <span>Creignificent supplies consumables</span>
+          <input id="consumables" type="checkbox" />
+        </label>
+
+        <div class="two">
+          <label>Distance one-way (miles)
+            <input id="distance" type="number" min="0" step="1" value="8" />
+          </label>
+          <label>Difficulty
+            <select id="difficulty">
+              <option value="1">Normal</option>
+              <option value="1.1">Heavy use +10%</option>
+              <option value="1.2">High detail +20%</option>
+            </select>
+          </label>
+        </div>
+
+        <details id="rulesPanel">
+          <summary>Business rules &amp; company</summary>
+          <div class="two rules">
+            <label>Monthly minimum $
+              <input id="monthlyMinimum" type="number" min="0" step="25" value="800" />
+            </label>
+            <label>Minimum visit $
+              <input id="visitMinimum" type="number" min="0" step="10" value="100" />
+            </label>
+            <label>Chemicals add %
+              <input id="chemicalPct" type="number" min="0" step="1" value="5" />
+            </label>
+            <label>Consumables add %
+              <input id="consumablePct" type="number" min="0" step="1" value="8" />
+            </label>
+            <label>Travel threshold miles
+              <input id="travelThreshold" type="number" min="0" step="1" value="15" />
+            </label>
+            <label>Travel add $ / visit
+              <input id="travelFee" type="number" min="0" step="5" value="20" />
+            </label>
+            <label>$ / bathroom / visit
+              <input id="bathFee" type="number" min="0" step="1" value="12" />
+            </label>
+            <label>Better package +%
+              <input id="betterPct" type="number" min="0" step="1" value="15" />
+            </label>
+            <label>Best package +%
+              <input id="bestPct" type="number" min="0" step="1" value="30" />
+            </label>
+          </div>
+          <div class="rules company-fields">
+            <label>Company phone
+              <input id="companyPhone" placeholder="(555) 000-0000" />
+            </label>
+            <label>Company email
+              <input id="companyEmail" placeholder="hello@creignificent.com" />
+            </label>
+          </div>
+        </details>
+      </form>
+
+      <section class="card output">
+        <div class="section-title"><span>3</span><h2>Protected price</h2></div>
+        <div id="warning" class="warning hidden"></div>
+
+        <div class="price-main">
+          <p id="baseLabel">Protected monthly</p>
+          <strong id="protectedBase">$0</strong>
+          <small id="baseNote"></small>
+        </div>
+
+        <ul class="breakdown" id="breakdown"></ul>
+
+        <div class="packages">
+          <article data-tier="good">
+            <p>Good · Essential</p>
+            <strong id="goodPrice">$0</strong>
+            <small id="goodPer">—</small>
+          </article>
+          <article class="featured" data-tier="better">
+            <div class="badge">Most popular</div>
+            <p>Better · Standard</p>
+            <strong id="betterPrice">$0</strong>
+            <small id="betterPer">—</small>
+          </article>
+          <article data-tier="best">
+            <p>Best · Premium</p>
+            <strong id="bestPrice">$0</strong>
+            <small id="bestPer">—</small>
+          </article>
+        </div>
+
+        <div class="section-title"><span>4</span><h2>Proposal</h2></div>
+        <textarea id="proposal" readonly></textarea>
+        <div class="actions">
+          <button id="copyBtn" type="button">Copy proposal</button>
+          <button id="saveBtn" type="button" class="ghost">Save quote</button>
+          <button id="printBtn" type="button" class="ghost">Print / PDF</button>
+        </div>
+        <p class="brand">Sponsored by Creignificent LLC.</p>
+      </section>
+    </section>
+  </main>
+
+  <article id="printSheet" class="print-sheet" hidden></article>
+
+  <aside id="historyDrawer" class="drawer" hidden>
+    <div class="drawer-panel">
+      <header>
+        <h2>Saved quotes</h2>
+        <button type="button" id="closeHistory" class="ghost">Close</button>
+      </header>
+      <div id="historyList" class="history-list"></div>
+    </div>
+  </aside>
+
+  <script>
+const WEEKS_PER_MONTH = 4.333;
+const STORAGE_RULES = "creignificent.rules.v1";
+const STORAGE_QUOTES = "creignificent.quotes.v1";
+
+const $ = (id) => document.getElementById(id);
+
+const fields = [
+  "client", "jobType", "sqft", "baths", "days", "sqftRate", "oneTimeRate",
+  "laborHours", "laborRate", "materials", "chemicals", "consumables",
+  "distance", "difficulty", "monthlyMinimum", "visitMinimum", "chemicalPct",
+  "consumablePct", "travelThreshold", "travelFee", "bathFee", "betterPct",
+  "bestPct", "companyPhone", "companyEmail"
+];
+
+const ruleIds = [
+  "sqftRate", "oneTimeRate", "laborRate", "monthlyMinimum", "visitMinimum",
+  "chemicalPct", "consumablePct", "travelThreshold", "travelFee", "bathFee",
+  "betterPct", "bestPct", "companyPhone", "companyEmail"
+];
+
+function money(n) {
+  return (Number(n) || 0).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0
+  });
+}
+
+function moneyExact(n) {
+  return (Number(n) || 0).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function num(id, fallback = 0) {
+  const v = parseFloat($(id).value);
+  return Number.isFinite(v) ? v : fallback;
+}
+
+function pct(id, fallback) {
+  const raw = $(id).value;
+  if (raw === "" || raw == null) return fallback;
+  const v = parseFloat(raw);
+  return Number.isFinite(v) && v >= 0 ? v : fallback;
+}
+
+function checked(id) {
+  return $(id).checked;
+}
+
+function jobTypeLabel(type) {
+  return {
+    recurring: "Recurring janitorial",
+    oneTime: "One-time general clean",
+    floor: "Floor-only / specialty"
+  }[type] || type;
+}
+
+function difficultyLabel(v) {
+  if (Number(v) === 1.1) return "Heavy use";
+  if (Number(v) === 1.2) return "High detail";
+  return "Normal";
+}
+
+function loadRules() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_RULES) || "{}");
+    for (const id of ruleIds) {
+      if (saved[id] != null && $(id)) $(id).value = saved[id];
+    }
+  } catch (_) { /* ignore */ }
+}
+
+function saveRules() {
+  const data = {};
+  for (const id of ruleIds) data[id] = $(id).value;
+  localStorage.setItem(STORAGE_RULES, JSON.stringify(data));
+}
+
+function getQuotes() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_QUOTES) || "[]");
+  } catch (_) {
+    return [];
+  }
+}
+
+function setQuotes(list) {
+  localStorage.setItem(STORAGE_QUOTES, JSON.stringify(list.slice(0, 40)));
+}
+
+function toggleFields() {
+  const type = $("jobType").value;
+  $("recurringFields").classList.toggle("hidden", type !== "recurring");
+  $("oneTimeFields").classList.toggle("hidden", type !== "oneTime");
+  $("specialtyFields").classList.toggle("hidden", type !== "floor");
+}
+
+function applyAddons(base) {
+  let total = base;
+  if (checked("chemicals")) total *= 1 + num("chemicalPct") / 100;
+  if (checked("consumables")) total *= 1 + num("consumablePct") / 100;
+  return total;
+}
+
+function calc() {
+  const type = $("jobType").value;
+  const sqft = num("sqft");
+  const baths = num("baths");
+  const days = Math.min(7, Math.max(1, num("days", 3)));
+  const difficulty = num("difficulty", 1);
+  const travel = num("distance") > num("travelThreshold") ? num("travelFee") : 0;
+  const visits = days * WEEKS_PER_MONTH;
+  const warnings = [];
+  const lines = [];
+
+  let protectedAmt = 0;
+  let cadence = "job";
+  let visitsShown = 1;
+
+  if (type === "recurring") {
+    const freq = days / 3;
+    const area = sqft * num("sqftRate") * freq * difficulty;
+    const bathCost = baths * num("bathFee") * visits;
+    const travelCost = travel * visits;
+    let monthly = applyAddons(area + bathCost) + travelCost;
+
+    lines.push(["Area × rate × frequency × difficulty", moneyExact(area)]);
+    if (bathCost) lines.push(["Bathroom surcharge", moneyExact(bathCost)]);
+    if (checked("chemicals")) lines.push([`Chemicals +${num("chemicalPct")}%`, "included"]);
+    if (checked("consumables")) lines.push([`Consumables +${num("consumablePct")}%`, "included"]);
+    if (travelCost) lines.push(["Travel", moneyExact(travelCost)]);
+
+    if (monthly < num("monthlyMinimum")) {
+      monthly = num("monthlyMinimum");
+      warnings.push(`Monthly minimum of ${money(num("monthlyMinimum"))} applied.`);
+    }
+
+    const perVisit = visits ? monthly / visits : monthly;
+    if (perVisit < num("visitMinimum")) {
+      monthly = num("visitMinimum") * visits;
+      warnings.push(`Visit minimum of ${money(num("visitMinimum"))} applied.`);
+    }
+
+    protectedAmt = monthly;
+    cadence = "month";
+    visitsShown = visits;
+  } else if (type === "oneTime") {
+    const area = sqft * num("oneTimeRate") * difficulty;
+    const bathCost = baths * num("bathFee") * 1.5;
+    let job = applyAddons(area + bathCost) + travel;
+    lines.push(["Sq ft × one-time rate × difficulty", moneyExact(area)]);
+    if (bathCost) lines.push(["Bathroom surcharge", moneyExact(bathCost)]);
+    if (travel) lines.push(["Travel", moneyExact(travel)]);
+    const floor = Math.max(num("visitMinimum") * 2, num("visitMinimum"));
+    if (job < floor) {
+      job = floor;
+      warnings.push(`One-time floor of ${money(floor)} applied.`);
+    }
+    protectedAmt = job;
+    cadence = "job";
+  } else {
+    const labor = num("laborHours") * num("laborRate");
+    let job = applyAddons((labor + num("materials")) * difficulty) + travel;
+    lines.push(["Labor", moneyExact(labor)]);
+    lines.push(["Materials / machines", moneyExact(num("materials"))]);
+    if (difficulty !== 1) lines.push(["Difficulty multiplier", `${difficulty}×`]);
+    if (travel) lines.push(["Travel", moneyExact(travel)]);
+    if (job < num("visitMinimum")) {
+      job = num("visitMinimum");
+      warnings.push(`Visit minimum of ${money(num("visitMinimum"))} applied.`);
+    }
+    protectedAmt = job;
+    cadence = "job";
+  }
+
+  const better = protectedAmt * (1 + pct("betterPct", 15) / 100);
+  const best = protectedAmt * (1 + pct("bestPct", 30) / 100);
+
+  return {
+    type,
+    protectedAmt,
+    better,
+    best,
+    cadence,
+    visits: visitsShown,
+    days,
+    warnings,
+    lines,
+    sqft,
+    baths,
+    difficulty,
+    travel
+  };
+}
+
+function perLine(amount, result) {
+  if (result.cadence === "month") {
+    const visit = result.visits ? amount / result.visits : amount;
+    return `${money(visit)} / visit · ${result.days}× week`;
+  }
+  return "Per job";
+}
+
+function proposalText(result) {
+  const client = $("client").value.trim() || "Valued client";
+  const today = new Date().toLocaleDateString("en-US", {
+    year: "numeric", month: "long", day: "numeric"
+  });
+  const phone = $("companyPhone").value.trim();
+  const email = $("companyEmail").value.trim();
+  const contact = [phone, email].filter(Boolean).join(" · ");
+
+  const supplies = [
+    checked("chemicals") ? "Creignificent supplies chemicals" : "Client supplies chemicals",
+    checked("consumables") ? "Creignificent supplies consumables" : "Client supplies consumables"
+  ].join("; ");
+
+  const period = result.cadence === "month" ? "per month" : "per job";
+  const extras = result.cadence === "month"
+    ? `\nSchedule: ${result.days} days per week (about ${Math.round(result.visits)} visits / month).`
+    : "";
+
+  const packages = {
+    recurring: {
+      good: "Core cleaning of contracted areas. Trash, restrooms, high-touch surfaces, and floors on the agreed schedule. Best for sites that already look maintained.",
+      better: "Everything in Good, plus tighter restroom standards, extra high-touch disinfection, and a monthly quality walk-through with photos.",
+      best: "Everything in Better, plus quarterly floor care attention, consumable monitoring, and priority scheduling / supervisor spot-checks."
+    },
+    oneTime: {
+      good: "One-time general clean of contracted areas: trash, dusting, high-touch surfaces, and floors. Good for a reset when the site is already in fair shape.",
+      better: "Everything in Good, plus a detail pass on restrooms, edges, baseboards, and extra high-touch disinfection before you reopen or show the space.",
+      best: "Everything in Better, plus extra floor attention, a supply/condition check, and priority same-week scheduling."
+    },
+    floor: {
+      good: "Specialty floor work for the agreed area: machine work, agreed chemical process, and basic move-and-replace of light items.",
+      better: "Everything in Good, plus extra edge work, a second pass on high-traffic lanes, and a walk-through with photos.",
+      best: "Everything in Better, plus premium finish attention where the floor allows, and priority scheduling / supervisor check."
+    }
+  };
+  const copy = packages[result.type] || packages.recurring;
+
+  return [
+    `CREIGNIFICENT CLEANING — SERVICE PROPOSAL`,
+    `${today}`,
+    ``,
+    `Prepared for: ${client}`,
+    `Service: ${jobTypeLabel(result.type)}`,
+    `Site: ${result.sqft.toLocaleString()} sq ft · ${result.baths} bathroom(s) · ${difficultyLabel(result.difficulty)} conditions.`,
+    supplies + ".",
+    extras.trim(),
+    ``,
+    `PROTECTED BASE (do not discount below): ${money(result.protectedAmt)} ${period}`,
+    ``,
+    `OPTION 1 — GOOD · Essential`,
+    `${money(result.protectedAmt)} ${period}`,
+    copy.good,
+    ``,
+    `OPTION 2 — BETTER · Standard  [MOST POPULAR]`,
+    `${money(result.better)} ${period}`,
+    copy.better,
+    ``,
+    `OPTION 3 — BEST · Premium`,
+    `${money(result.best)} ${period}`,
+    copy.best,
+    ``,
+    `Notes`,
+    `- Travel beyond ${num("travelThreshold")} miles one-way adds ${money(num("travelFee"))} per visit.`,
+    `- Pricing assumes normal occupancy and reasonable access. Hidden damage, biohazard, or after-hours work is quoted separately.`,
+    `- Proposal is valid for 30 days.`,
+    contact ? `- Questions: ${contact}` : `- Questions: Creignificent LLC`,
+    ``,
+    `Thank you for considering Creignificent Cleaning.`,
+    `Sponsored by Creignificent LLC.`
+  ].filter((line, i, arr) => line !== "" || arr[i - 1] !== "").join("\n").replace(/\n{3,}/g, "\n\n");
+}
+
+function render() {
+  toggleFields();
+  const result = calc();
+
+  $("baseLabel").textContent = result.cadence === "month" ? "Protected monthly" : "Protected job price";
+  $("protectedBase").textContent = money(result.protectedAmt);
+  $("baseNote").textContent = perLine(result.protectedAmt, result);
+
+  $("goodPrice").textContent = money(result.protectedAmt);
+  $("betterPrice").textContent = money(result.better);
+  $("bestPrice").textContent = money(result.best);
+  $("goodPer").textContent = perLine(result.protectedAmt, result);
+  $("betterPer").textContent = perLine(result.better, result);
+  $("bestPer").textContent = perLine(result.best, result);
+
+  $("breakdown").innerHTML = result.lines.map(([k, v]) =>
+    `<li><span>${k}</span><span>${v}</span></li>`
+  ).join("");
+
+  const warn = $("warning");
+  if (result.warnings.length) {
+    warn.textContent = result.warnings.join(" ");
+    warn.classList.remove("hidden");
+  } else {
+    warn.classList.add("hidden");
+  }
+
+  $("proposal").value = proposalText(result);
+  saveRules();
+  return result;
+}
+
+function snapshot() {
+  const data = {};
+  for (const id of fields) {
+    const el = $(id);
+    data[id] = el.type === "checkbox" ? el.checked : el.value;
+  }
+  return data;
+}
+
+function applySnapshot(data) {
+  for (const id of fields) {
+    if (data[id] == null || !$(id)) continue;
+    if ($(id).type === "checkbox") $(id).checked = !!data[id];
+    else $(id).value = data[id];
+  }
+  render();
+}
+
+function saveQuote() {
+  const result = render();
+  const client = $("client").value.trim() || "Untitled site";
+  const quotes = getQuotes();
+  quotes.unshift({
+    id: Date.now(),
+    savedAt: new Date().toISOString(),
+    client,
+    type: result.type,
+    price: result.protectedAmt,
+    cadence: result.cadence,
+    data: snapshot(),
+    proposal: $("proposal").value
+  });
+  setQuotes(quotes);
+  $("saveBtn").textContent = "Saved";
+  setTimeout(() => { $("saveBtn").textContent = "Save quote"; }, 1200);
+}
+
+function renderHistory() {
+  const quotes = getQuotes();
+  const root = $("historyList");
+  if (!quotes.length) {
+    root.innerHTML = `<p class="empty">No saved quotes yet. Price a job and tap Save quote.</p>`;
+    return;
+  }
+  root.innerHTML = quotes.map((q) => {
+    const when = new Date(q.savedAt).toLocaleDateString();
+    return `<article class="history-item" data-id="${q.id}">
+      <div>
+        <strong>${q.client}</strong><br />
+        <span>${jobTypeLabel(q.type)} · ${money(q.price)} / ${q.cadence} · ${when}</span>
+      </div>
+      <button type="button" class="ghost delete" data-id="${q.id}">Delete</button>
+    </article>`;
+  }).join("");
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function buildPrintSheet() {
+  const raw = $("proposal").value.trim();
+  const blocks = raw.split(/\n\s*\n/);
+  const html = blocks.map((block, i) => {
+    const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+    if (!lines.length) return "";
+    if (i === 0) {
+      return `<h1>${escapeHtml(lines[0])}</h1>
+        <p class="print-meta">${escapeHtml(lines.slice(1).join(" · "))}</p>`;
+    }
+    const heading = /^(OPTION|PROTECTED|Notes|Thank you|Prepared|Service|Site|CREIGNIFICENT)/i.test(lines[0]);
+    if (heading && lines.length > 1 && /^\$/.test(lines[1])) {
+      return `<h2>${escapeHtml(lines[0])}</h2>
+        <p class="price">${escapeHtml(lines[1])}</p>
+        <p>${escapeHtml(lines.slice(2).join(" "))}</p>`;
+    }
+    if (heading) {
+      return `<h2>${escapeHtml(lines[0])}</h2>
+        <p>${escapeHtml(lines.slice(1).join("<br>")).replace(/&lt;br&gt;/g, "<br>")}</p>`;
+    }
+    return `<p>${lines.map(escapeHtml).join("<br>")}</p>`;
+  }).join("");
+
+  const sheet = $("printSheet");
+  sheet.innerHTML = html || `<p>${escapeHtml(raw)}</p>`;
+  sheet.hidden = false;
+}
+
+function printProposal() {
+  buildPrintSheet();
+  const sheet = $("printSheet");
+  const finish = () => {
+    sheet.hidden = true;
+    window.removeEventListener("afterprint", finish);
+  };
+  window.addEventListener("afterprint", finish);
+  setTimeout(() => {
+    window.print();
+    setTimeout(finish, 1500);
+  }, 50);
+}
+
+function bind() {
+  $("pricingForm").addEventListener("input", render);
+  $("pricingForm").addEventListener("change", render);
+
+  $("resetBtn").addEventListener("click", () => {
+    $("client").value = "";
+    $("jobType").value = "recurring";
+    $("sqft").value = 5000;
+    $("baths").value = 2;
+    $("days").value = 3;
+    $("laborHours").value = 3;
+    $("materials").value = 50;
+    $("chemicals").checked = false;
+    $("consumables").checked = false;
+    $("distance").value = 8;
+    $("difficulty").value = "1";
+    render();
+  });
+
+  $("copyBtn").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText($("proposal").value);
+      $("copyBtn").textContent = "Copied";
+      setTimeout(() => { $("copyBtn").textContent = "Copy proposal"; }, 1200);
+    } catch (_) {
+      $("proposal").select();
+      document.execCommand("copy");
+    }
+  });
+
+  $("printBtn").addEventListener("click", printProposal);
+  $("saveBtn").addEventListener("click", saveQuote);
+
+  $("historyBtn").addEventListener("click", () => {
+    renderHistory();
+    $("historyDrawer").hidden = false;
+  });
+  $("closeHistory").addEventListener("click", () => {
+    $("historyDrawer").hidden = true;
+  });
+  $("historyDrawer").addEventListener("click", (e) => {
+    if (e.target.id === "historyDrawer") $("historyDrawer").hidden = true;
+    const del = e.target.closest(".delete");
+    if (del) {
+      e.stopPropagation();
+      setQuotes(getQuotes().filter((q) => String(q.id) !== del.dataset.id));
+      renderHistory();
+      return;
+    }
+    const item = e.target.closest(".history-item");
+    if (item) {
+      const q = getQuotes().find((x) => String(x.id) === item.dataset.id);
+      if (q) applySnapshot(q.data);
+      $("historyDrawer").hidden = true;
+    }
+  });
+}
+
+loadRules();
+bind();
+render();
+
+  </script>
+</body>
+</html>
