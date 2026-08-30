@@ -538,7 +538,7 @@ button:active { transform: translateY(1px); }
               <input id="sqftRate" type="number" min="0" step="0.01" value="0.33" />
             </label>
           </div>
-          <p class="hint">Base rate is monthly and assumes 5×/week service. Bathrooms are included in the square-foot price.</p>
+          <p class="hint">Base rate is monthly and assumes 5×/week service. Bathrooms are included in the square-foot price. 1×/week uses one-fifth of the 5-day baseline, protected by the $825 minimum.</p>
         </div>
 
         <div id="oneTimeFields" class="hidden">
@@ -808,24 +808,37 @@ function calc() {
   let visitsShown = 1;
 
   if (type === "recurring") {
-    const area = sqft * num("sqftRate") * difficulty;
+    const fiveDayArea = sqft * num("sqftRate") * difficulty;
     const travelCost = travel * visits;
-    let monthly = applyAddons(area) + travelCost;
+    let monthly;
 
-    lines.push(["Building sq ft × monthly rate × difficulty", moneyExact(area)]);
     lines.push(["Bathrooms", "included"]);
+
+    if (days === 1) {
+      const oneDayArea = fiveDayArea / 5;
+      monthly = applyAddons(oneDayArea) + travelCost;
+      lines.unshift(["1×/week base (5-day monthly baseline ÷ 5)", moneyExact(oneDayArea)]);
+      if (monthly < num("monthlyMinimum")) {
+        monthly = num("monthlyMinimum");
+        warnings.push(`1×/week minimum of ${money(num("monthlyMinimum"))} applied.`);
+      }
+    } else {
+      monthly = applyAddons(fiveDayArea) + travelCost;
+      lines.unshift(["Building sq ft × 5-day monthly rate × difficulty", moneyExact(fiveDayArea)]);
+
+      if (sqft < 2500 && monthly < num("monthlyMinimum")) {
+        monthly = num("monthlyMinimum");
+        warnings.push(`Small-account minimum of ${money(num("monthlyMinimum"))} applied for sites under 2,500 sq ft.`);
+      }
+
+      if (days !== 5) {
+        warnings.push(`Frequency pricing for ${days}×/week has not been defined yet. The 5×/week baseline is shown without an automatic discount or increase.`);
+      }
+    }
+
     if (checked("chemicals")) lines.push([`Chemicals +${num("chemicalPct")}%`, "included"]);
     if (checked("consumables")) lines.push([`Consumables +${num("consumablePct")}%`, "included"]);
     if (travelCost) lines.push(["Travel", moneyExact(travelCost)]);
-
-    if (sqft < 2500 && monthly < num("monthlyMinimum")) {
-      monthly = num("monthlyMinimum");
-      warnings.push(`Small-account minimum of ${money(num("monthlyMinimum"))} applied for sites under 2,500 sq ft.`);
-    }
-
-    if (days !== 5) {
-      warnings.push(`$${num("sqftRate").toFixed(2)}/sq ft is your 5×/week monthly baseline. Frequency pricing for ${days}×/week has not been defined yet, so no automatic frequency discount or increase was applied.`);
-    }
 
     protectedAmt = monthly;
     cadence = "month";
