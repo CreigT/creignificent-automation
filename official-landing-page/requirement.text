@@ -1,0 +1,117 @@
+CREIGNIFICENT LLC — OFFICIAL LANDING PAGE REQUIREMENTS
+======================================================
+Document: requirement.text
+Version: 2.0
+Updated: 2026-08-28
+Source: Owner-provided reference HTML for Creignificent LLC
+Purpose: Specification for the official commercial cleaning / janitorial marketing landing page, optimized for SEO, AEO, local visibility, and quote conversion.
+
+1. BUSINESS
+-----------
+Legal name: Creignificent LLC
+Category: Commercial cleaning and janitorial services
+Positioning: Facility-focused commercial programs (not residential maid service)
+Primary market: Inland Empire, California
+Also served: San Bernardino County, Riverside County, and surrounding Southern California markets (Los Angeles County / Orange County considered case by case)
+
+Facilities served:
+- Daycares and preschools
+- Medical offices and pharmacies
+- Professional offices
+- Gyms and activity facilities
+- Small and midsize commercial properties
+- Move-in / post-construction turnovers
+
+Core services:
+- Routine / recurring janitorial cleaning
+- Floor care and maintenance
+- Restroom cleaning
+- Carpet and VLM maintenance
+- High-touch surface cleaning
+- Trash and breakroom service
+- Glass and entrance cleaning
+- Deep cleaning / one-time detail
+
+REPLACE BEFORE PUBLIC DEPLOYMENT:
+[DOMAIN] https://YOUR-DOMAIN.com/
+[PHONE DISPLAY] YOUR BUSINESS PHONE
+[PHONE DIAL] +1XXXXXXXXXX
+[EMAIL] YOUR BUSINESS EMAIL
+[STREET ADDRESS] if a public business address exists
+[GBP] Google Business Profile URL
+[sameAs] Facebook, Instagram, LinkedIn, Yelp as they go live
+
+Do not invent certifications, years in business, review scores, or a street address that is not real.
+
+2. PAGE GOAL
+------------
+Primary: convert facility decision-makers into quote / walkthrough requests.
+Secondary: be extractable and citable by Google, AI Overviews, ChatGPT, Perplexity, Gemini, Claude, and Grok for commercial cleaning and janitorial queries in the Inland Empire and surrounding cities.
+
+3. REQUIRED FILES
+-----------------
+requirement.text
+index.html
+llms.txt
+robots.txt
+sitemap.xml
+README.md
+
+4. AEO REQUIREMENTS
+-------------------
+- Answer-first summary immediately after the H1
+- Question-shaped H2/H3 and FAQ mirroring buyer prompts
+- Visible FAQ text must match FAQPage schema exactly
+- JSON-LD in page source: LocalBusiness + ProfessionalService + CleaningService where valid; WebSite; WebPage; BreadcrumbList; Service + areaServed; FAQPage; HowTo
+- Content present in initial HTML
+- llms.txt at domain root
+- robots.txt allows major search and AI user-agents unless policy changes
+- Last-updated date visible on page
+- Entity consistency: always "Creignificent LLC"
+
+5. SEO REQUIREMENTS
+-------------------
+Title: Commercial Cleaning & Janitorial Services | Creignificent LLC
+Meta description: facilities + Inland Empire + Southern California + CTA
+One H1; logical H2/H3; canonical; Open Graph; Twitter cards; semantic HTML5; skip link; focus states; reduced-motion support.
+Local entities: Fontana, Rancho Cucamonga, Ontario, San Bernardino, Redlands, Riverside, Upland, Pomona, Inland Empire.
+No fake NAP in schema.
+
+6. CONVERSION REQUIREMENTS
+--------------------------
+- Sticky header with Get Free Quote
+- Hero + process panel
+- Proof bar
+- Industries grid
+- Numbered service catalog
+- Why Creignificent
+- Service-area city cloud
+- 3-step process
+- FAQ accordion
+- Green quote band + validated mailto form
+- Final CTA
+- Mobile fixed dual CTA (Quote / Call)
+- BUSINESS config object is the single place to add phone and email
+
+7. CONTENT RULES
+----------------
+- Write for facility managers, daycare directors, office managers, pharmacy leads — not homeowners
+- Do not claim hospital-grade sterile processing
+- Daycare / preschool and medical / pharmacy are primary categories
+- After-hours scheduling is a featured differentiator
+- Custom scope over generic packages
+- Keep navy + mint green, large type, card grids, mint quote band
+
+8. LAUNCH CHECKLIST
+-------------------
+[ ] Replace YOUR-DOMAIN.com everywhere
+[ ] Set BUSINESS.phoneDisplay, BUSINESS.phoneDial, BUSINESS.email
+[ ] Add real address to footer + schema only if public
+[ ] Connect form to Formspree / Web3Forms / Apps Script when ready
+[ ] Claim Google Business Profile; match name exactly
+[ ] Validate JSON-LD in Google Rich Results Test
+[ ] Submit sitemap in Search Console
+[ ] Add privacy policy URL
+[ ] Add photos with descriptive alt text when available
+
+END OF REQUIREMENT.TEXT
