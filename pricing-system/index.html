@@ -532,13 +532,13 @@ button:active { transform: translateY(1px); }
         <div id="recurringFields">
           <div class="two">
             <label>Days / week
-              <input id="days" type="number" min="1" max="7" step="1" value="3" />
+              <input id="days" type="number" min="1" max="7" step="1" value="5" />
             </label>
             <label>Base $ / sq ft / mo
               <input id="sqftRate" type="number" min="0" step="0.01" value="0.33" />
             </label>
           </div>
-          <p class="hint">Rate is monthly at 3×/week. More or fewer days scale the monthly price.</p>
+          <p class="hint">Base rate is monthly and assumes 5×/week service. Bathrooms are included in the square-foot price.</p>
         </div>
 
         <div id="oneTimeFields" class="hidden">
@@ -589,8 +589,8 @@ button:active { transform: translateY(1px); }
         <details id="rulesPanel">
           <summary>Business rules &amp; company</summary>
           <div class="two rules">
-            <label>Monthly minimum $
-              <input id="monthlyMinimum" type="number" min="0" step="25" value="800" />
+            <label>Small-account minimum $
+              <input id="monthlyMinimum" type="number" min="0" step="25" value="825" />
             </label>
             <label>Minimum visit $
               <input id="visitMinimum" type="number" min="0" step="10" value="100" />
@@ -607,7 +607,7 @@ button:active { transform: translateY(1px); }
             <label>Travel add $ / visit
               <input id="travelFee" type="number" min="0" step="5" value="20" />
             </label>
-            <label>$ / bathroom / visit
+            <label>$ / bathroom / visit (one-time only)
               <input id="bathFee" type="number" min="0" step="1" value="12" />
             </label>
             <label>Better package +%
@@ -796,7 +796,7 @@ function calc() {
   const type = $("jobType").value;
   const sqft = num("sqft");
   const baths = num("baths");
-  const days = Math.min(7, Math.max(1, num("days", 3)));
+  const days = Math.min(7, Math.max(1, num("days", 5)));
   const difficulty = num("difficulty", 1);
   const travel = num("distance") > num("travelThreshold") ? num("travelFee") : 0;
   const visits = days * WEEKS_PER_MONTH;
@@ -808,27 +808,23 @@ function calc() {
   let visitsShown = 1;
 
   if (type === "recurring") {
-    const freq = days / 3;
-    const area = sqft * num("sqftRate") * freq * difficulty;
-    const bathCost = baths * num("bathFee") * visits;
+    const area = sqft * num("sqftRate") * difficulty;
     const travelCost = travel * visits;
-    let monthly = applyAddons(area + bathCost) + travelCost;
+    let monthly = applyAddons(area) + travelCost;
 
-    lines.push(["Area × rate × frequency × difficulty", moneyExact(area)]);
-    if (bathCost) lines.push(["Bathroom surcharge", moneyExact(bathCost)]);
+    lines.push(["Building sq ft × monthly rate × difficulty", moneyExact(area)]);
+    lines.push(["Bathrooms", "included"]);
     if (checked("chemicals")) lines.push([`Chemicals +${num("chemicalPct")}%`, "included"]);
     if (checked("consumables")) lines.push([`Consumables +${num("consumablePct")}%`, "included"]);
     if (travelCost) lines.push(["Travel", moneyExact(travelCost)]);
 
-    if (monthly < num("monthlyMinimum")) {
+    if (sqft < 2500 && monthly < num("monthlyMinimum")) {
       monthly = num("monthlyMinimum");
-      warnings.push(`Monthly minimum of ${money(num("monthlyMinimum"))} applied.`);
+      warnings.push(`Small-account minimum of ${money(num("monthlyMinimum"))} applied for sites under 2,500 sq ft.`);
     }
 
-    const perVisit = visits ? monthly / visits : monthly;
-    if (perVisit < num("visitMinimum")) {
-      monthly = num("visitMinimum") * visits;
-      warnings.push(`Visit minimum of ${money(num("visitMinimum"))} applied.`);
+    if (days !== 5) {
+      warnings.push(`$${num("sqftRate").toFixed(2)}/sq ft is your 5×/week monthly baseline. Frequency pricing for ${days}×/week has not been defined yet, so no automatic frequency discount or increase was applied.`);
     }
 
     protectedAmt = monthly;
@@ -1110,7 +1106,7 @@ function bind() {
     $("jobType").value = "recurring";
     $("sqft").value = 5000;
     $("baths").value = 2;
-    $("days").value = 3;
+    $("days").value = 5;
     $("laborHours").value = 3;
     $("materials").value = 50;
     $("chemicals").checked = false;
